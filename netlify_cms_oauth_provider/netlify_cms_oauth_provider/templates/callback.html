@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>callback</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        function receiveMessage(e) {
+          console.log('receiveMessage %o', e);
+          // send message to main window with the app
+          window.opener.postMessage({{ post_message|safe }}, e.origin);
+        }
+        window.addEventListener('message', receiveMessage, false);
+        // Start handshake with parent
+        console.log('Sending message: %o', 'github');
+        window.opener.postMessage('authorizing:github', '*');
+      })();
+    </script>
+  </body>
+</html>
