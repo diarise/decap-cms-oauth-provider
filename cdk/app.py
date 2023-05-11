@@ -5,16 +5,16 @@ import aws_cdk as cdk
 from aws_cdk import Tags
 from settings import settings
 
-p = os.path.abspath("../netlify_cms_oauth_provider")
+p = os.path.abspath("../decap_cms_oauth_provider")
 sys.path.insert(1, p)
 from stacks.lambda_api_stack import LambdaApiStack
 
-from netlify_cms_oauth_provider.settings import settings as lambda_env
+from decap_cms_oauth_provider.settings import settings as lambda_env
 
 app = cdk.App()
 lambda_api_stack = LambdaApiStack(
     app,
-    "NetlifyCMSOAuthProviderStack",
+    "DecapCMSOAuthProviderStack",
     env_name=settings.ENV,
     lambda_env=lambda_env,
     api_lambda_memory_size=settings.API_LAMBDA_MEMORY_SIZE,

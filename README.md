@@ -1,6 +1,6 @@
-# Netlify CMS OAuth Provider
+# Decap CMS OAuth Provider
 
-A Python3.9 GitHub OAuth Provider for Netlify CMS that can run on AWS Lambda. 
+A Python3.9 GitHub OAuth Provider for Decap CMS that can run on AWS Lambda. 
 
 Adapted from https://github.com/davidejones/netlify-cms-oauth-provider-python.git
 

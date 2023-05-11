@@ -9,8 +9,7 @@ from mangum import Mangum
 from requests_oauthlib import OAuth2Session
 
 
-
-from netlify_cms_oauth_provider.settings import settings
+from decap_cms_oauth_provider.settings import settings
 
 app = FastAPI()
 
@@ -27,7 +26,7 @@ scope = settings.SCOPES
 
 BASE_DIR = Path(__file__).resolve().parent
 
-templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
+templates = Jinja2Templates(directory=str(Path(BASE_DIR, "templates")))
 
 
 @app.get("/auth", response_class=RedirectResponse)

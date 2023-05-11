@@ -37,16 +37,16 @@ class LambdaApiStack(Stack):
 
         api_lambda = aws_lambda.Function(
             self,
-            f"netlify-cms-oauth-provider-{env_name}-lambda",
+            f"decap-cms-oauth-provider-{env_name}-lambda",
             code=aws_lambda.Code.from_asset(
-                path="../netlify_cms_oauth_provider",
+                path="../decap_cms_oauth_provider",
                 exclude=[
                     "venv",
                     "__pycache__",
                     "pytest_cache",
                 ],
             ),
-            handler="netlify_cms_oauth_provider.main.handler",
+            handler="decap_cms_oauth_provider.main.handler",
             runtime=aws_lambda.Runtime.PYTHON_3_9,
             memory_size=api_lambda_memory_size,
             environment=stringify_settings(lambda_env),
@@ -56,7 +56,7 @@ class LambdaApiStack(Stack):
                     self,
                     f"{env_name}",
                     "api",
-                    Path("../netlify_cms_oauth_provider/requirements.txt"),
+                    Path("../decap_cms_oauth_provider/requirements.txt"),
                 ),
             ],
         )
@@ -74,7 +74,7 @@ class LambdaApiStack(Stack):
             self,
             f"{id}-endpoint",
             default_integration=HttpLambdaIntegration(
-                f"netlify-cms-oauth-provider-integration-{env_name}",
+                f"decap-cms-oauth-provider-integration-{env_name}",
                 api_lambda,
             ),
             cors_preflight={
@@ -94,7 +94,7 @@ class LambdaApiStack(Stack):
 
         ApiMapping(
             self,
-            "netlify-cms-oauth-provider-api-mapping",
+            "decap-cms-oauth-provider-api-mapping",
             api=api,
             domain_name=custom_domain,
         )
@@ -108,14 +108,14 @@ class LambdaApiStack(Stack):
         if domain_name and cert_arn and hosted_zone_id and hosted_zone_name:
             hosted_zone = route53.HostedZone.from_hosted_zone_attributes(
                 self,
-                f"openaq-api-hosted-zone-{env_name}",
+                f"decap-cms-oauth-provider-api-hosted-zone-{env_name}",
                 hosted_zone_id=hosted_zone_id,
                 zone_name=hosted_zone_name,
             )
 
             route53.ARecord(
                 self,
-                f"openaq-api-alias-record-{env_name}",
+                f"decap-cms-oauth-provider-api-alias-record-{env_name}",
                 zone=hosted_zone,
                 record_name=domain_name,
                 target=route53.RecordTarget.from_alias(
