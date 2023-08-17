@@ -32,7 +32,7 @@ Variables:
 * OAUTH_CLIENT_SECRET - Github OAuth Client Secret https://github.com/settings/applications/new
 * HOSTED_ZONE_ID - Route53 hosted zone ID of the custom domain name. Optional if not set API gateway url can be used, if set must be set with HOSTED_ZONE_NAME, DOMAIN_NAME and CERTIFICATE_ARN
 * HOSTED_ZONE_NAME - Route53 hosted zone name of the custom domain name. Optional if not set API gateway url can be used, if set must be set with HOSTED_ZONE_ID, DOMAIN_NAME and CERTIFICATE_ARN
-* DOMAIN_NAME - domain name for the service. Optional if not set API gateway url can be used, if set must be set with HOSTED_ZONE_ID, HOSTED_ZONE_NAME and CERTIFICATE_ARN
+* DOMAIN_NAME - domain name for the service. Optional if not set API gateway URL can be used, if set must be set with HOSTED_ZONE_ID, HOSTED_ZONE_NAME and CERTIFICATE_ARN
 * CERTIFICATE_ARN - AWS ARN (Amazon Resource Name) for TLS certificate for the custom domain name. Optional if not set API gateway url can be used, if set must be set with HOSTED_ZONE_ID, HOSTED_ZONE_NAME and DOMAIN_NAME
 * API_LAMBDA_MEMORY_SIZE - number of MB(Megabytes) to allocate to AWS Lambda. Optional, defaults to 128
 * API_LAMBDA_TIMEOUT - number of seconds before timeout for AWS Lambda. Optional, defaults to 10

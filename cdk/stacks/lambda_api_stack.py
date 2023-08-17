@@ -26,10 +26,10 @@ class LambdaApiStack(Stack):
         api_lambda_memory_size: int,
         api_lambda_timeout: int,
         cors_allow_origin: str,
-        hosted_zone_name: Union[str, None],
-        hosted_zone_id: Union[str, None],
-        domain_name: Union[str, None],
-        cert_arn: Union[str, None],
+        hosted_zone_name: Union[str, None] = None,
+        hosted_zone_id: Union[str, None] = None,
+        domain_name: Union[str, None] = None,
+        cert_arn: Union[str, None] = None,
         **kwargs,
     ) -> None:
         """Lambda to handle api requests"""
@@ -61,15 +61,6 @@ class LambdaApiStack(Stack):
             ],
         )
 
-        custom_domain = DomainName(
-            self,
-            "customDomainName",
-            domain_name=domain_name,
-            certificate=Certificate.from_certificate_arn(
-                self, "custom_domain_cert", cert_arn
-            ),
-        )
-
         api = HttpApi(
             self,
             f"{id}-endpoint",
@@ -92,13 +83,6 @@ class LambdaApiStack(Stack):
             },
         )
 
-        ApiMapping(
-            self,
-            "decap-cms-oauth-provider-api-mapping",
-            api=api,
-            domain_name=custom_domain,
-        )
-
         # When you dont include a default stage the api object does not include the url
         # However, the urls are all standard based on the api_id and the region
         api_url = f"https://{api.http_api_id}.execute-api.{self.region}.amazonaws.com"
@@ -106,6 +90,20 @@ class LambdaApiStack(Stack):
         CfnOutput(self, "Endpoint", value=api_url)
 
         if domain_name and cert_arn and hosted_zone_id and hosted_zone_name:
+            custom_domain = DomainName(
+                self,
+                "customDomainName",
+                domain_name=domain_name,
+                certificate=Certificate.from_certificate_arn(
+                    self, "custom_domain_cert", cert_arn
+                ),
+            )
+            ApiMapping(
+                self,
+                "decap-cms-oauth-provider-api-mapping",
+                api=api,
+                domain_name=custom_domain,
+            )
             hosted_zone = route53.HostedZone.from_hosted_zone_attributes(
                 self,
                 f"decap-cms-oauth-provider-api-hosted-zone-{env_name}",
