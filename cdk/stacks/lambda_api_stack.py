@@ -1,16 +1,10 @@
 from pathlib import Path
-from typing import Dict, Union
 
-from aws_cdk import CfnOutput, Duration, Stack, aws_lambda, aws_logs
+from aws_cdk import CfnOutput, Duration, Stack, aws_lambda
 from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_route53_targets as targets
-from aws_cdk.aws_apigatewayv2_alpha import (
-    ApiMapping,
-    CorsHttpMethod,
-    DomainName,
-    HttpApi,
-)
-from aws_cdk.aws_apigatewayv2_integrations_alpha import HttpLambdaIntegration
+from aws_cdk.aws_apigatewayv2 import ApiMapping, CorsHttpMethod, DomainName, HttpApi
+from aws_cdk.aws_apigatewayv2_integrations import HttpLambdaIntegration
 from aws_cdk.aws_certificatemanager import Certificate
 from constructs import Construct
 from stacks.utils import create_dependencies_layer, stringify_settings
@@ -22,14 +16,14 @@ class LambdaApiStack(Stack):
         scope: Construct,
         id: str,
         env_name: str,
-        lambda_env: Dict,
+        lambda_env: dict,
         api_lambda_memory_size: int,
         api_lambda_timeout: int,
         cors_allow_origin: str,
-        hosted_zone_name: Union[str, None] = None,
-        hosted_zone_id: Union[str, None] = None,
-        domain_name: Union[str, None] = None,
-        cert_arn: Union[str, None] = None,
+        hosted_zone_name: str | None = None,
+        hosted_zone_id: str | None = None,
+        domain_name: str | None = None,
+        cert_arn: str | None = None,
         **kwargs,
     ) -> None:
         """Lambda to handle api requests"""
@@ -47,7 +41,7 @@ class LambdaApiStack(Stack):
                 ],
             ),
             handler="decap_cms_oauth_provider.main.handler",
-            runtime=aws_lambda.Runtime.PYTHON_3_9,
+            runtime=aws_lambda.Runtime.PYTHON_3_12,
             memory_size=api_lambda_memory_size,
             environment=stringify_settings(lambda_env),
             timeout=Duration.seconds(api_lambda_timeout),

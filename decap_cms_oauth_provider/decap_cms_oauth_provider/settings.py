@@ -1,7 +1,13 @@
 from os import environ
 from pathlib import Path
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def get_env():
+    parent = Path(__file__).resolve().parent.parent.parent
+    env_file = Path.joinpath(parent, environ.get("DOTENV", ".env"))
+    return env_file
 
 
 class Settings(BaseSettings):
@@ -12,12 +18,7 @@ class Settings(BaseSettings):
     OAUTH_AUTHORIZE_PATH: str = "/login/oauth/authorize"
     SCOPES: str = "repo,user"
 
-    class Config:
-        parent = Path(__file__).resolve().parent.parent.parent
-        if "DOTENV" in environ:
-            env_file = Path.joinpath(parent, environ["DOTENV"])
-        else:
-            env_file = Path.joinpath(parent, ".env")
+    model_config = SettingsConfigDict(extra="ignore", env_file=get_env())
 
 
 settings = Settings()
