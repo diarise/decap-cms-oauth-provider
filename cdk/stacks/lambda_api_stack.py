@@ -41,7 +41,7 @@ class LambdaApiStack(Stack):
                 ],
             ),
             handler="decap_cms_oauth_provider.main.handler",
-            runtime=aws_lambda.Runtime.PYTHON_3_12,
+            runtime=aws_lambda.Runtime.PYTHON_3_11,
             memory_size=api_lambda_memory_size,
             environment=stringify_settings(lambda_env),
             timeout=Duration.seconds(api_lambda_timeout),
